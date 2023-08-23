@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.usuario.service.entidades.Usuario;
+import com.usuario.service.modelos.Auto;
 import com.usuario.service.servicio.UsuarioService;
 
 @RestController
@@ -19,28 +20,39 @@ import com.usuario.service.servicio.UsuarioService;
 public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Usuario>> listarUsuarios(){
+	public ResponseEntity<List<Usuario>> listarUsuarios() {
 		List<Usuario> usuarios = usuarioService.getAll();
-		if(usuarios.isEmpty()) {
+		if (usuarios.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok(usuarios);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> obtenerUsuario(@PathVariable("id") int id){
+	public ResponseEntity<Usuario> obtenerUsuario(@PathVariable("id") int id) {
 		Usuario usuario = usuarioService.getUsuarioById(id);
-		if(usuario == null) {
-			return ResponseEntity.notFound().build();		
+		if (usuario == null) {
+			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(usuario);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario) {
 		Usuario nuevoUsuario = usuarioService.save(usuario);
 		return ResponseEntity.ok(nuevoUsuario);
+	}
+
+	@GetMapping("/autos/{usuarioId}")
+	public ResponseEntity<List<Auto>> getListarAutos(@PathVariable("usuarioId") int id) {
+		Usuario usuario = usuarioService.getUsuarioById(id);
+		if (usuario == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			List<Auto> autos = usuarioService.getAutos(id);
+			return ResponseEntity.ok(autos);
+		}
 	}
 }

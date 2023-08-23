@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.usuario.service.entidades.Usuario;
 import com.usuario.service.modelos.Auto;
+import com.usuario.service.modelos.Moto;
 import com.usuario.service.repositorio.UsuarioRepository;
 
 @Service
@@ -21,6 +22,11 @@ public class UsuarioService {
 	public List<Auto> getAutos(int usuarioId) {
 		List<Auto> autos = restTemplate.getForObject("http://localhost:8002/auto/usuario/" + usuarioId, List.class);
 		return autos;
+	}
+
+	public List<Moto> getMotos(int usuarioId) {
+		List<Moto> motos = restTemplate.getForObject("http://localhost:8003/moto/usuario/" + usuarioId, List.class);
+		return motos;
 	}
 
 	public List<Usuario> getAll() {

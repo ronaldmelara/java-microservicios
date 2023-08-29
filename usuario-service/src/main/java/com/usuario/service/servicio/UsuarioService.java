@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.usuario.service.entidades.Usuario;
+import com.usuario.service.feignClients.AutoFeignClient;
 import com.usuario.service.modelos.Auto;
 import com.usuario.service.modelos.Moto;
 import com.usuario.service.repositorio.UsuarioRepository;
@@ -18,6 +19,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private AutoFeignClient autoForeignClient;
 
 	public List<Auto> getAutos(int usuarioId) {
 		List<Auto> autos = restTemplate.getForObject("http://localhost:8002/auto/usuario/" + usuarioId, List.class);
@@ -29,6 +33,12 @@ public class UsuarioService {
 		return motos;
 	}
 
+	
+	public Auto saveAuto(int usuarioId, Auto auto) {
+		auto.setUsuarioId(usuarioId);
+		Auto nuevoAuto = autoForeignClient.save(auto);
+		return nuevoAuto;
+	}
 	public List<Usuario> getAll() {
 		return usuarioRepository.findAll();
 	}

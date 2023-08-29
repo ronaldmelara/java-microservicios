@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.usuario.service.entidades.Usuario;
 import com.usuario.service.modelos.Auto;
+import com.usuario.service.modelos.Moto;
 import com.usuario.service.servicio.UsuarioService;
 
 @RestController
@@ -53,6 +54,17 @@ public class UsuarioController {
 		} else {
 			List<Auto> autos = usuarioService.getAutos(id);
 			return ResponseEntity.ok(autos);
+		}
+	}
+	
+	@GetMapping("/motos/{usuarioId}")
+	public ResponseEntity<List<Moto>> getListarMotos(@PathVariable("usuarioId") int id) {
+		Usuario usuario = usuarioService.getUsuarioById(id);
+		if (usuario == null) {
+			return ResponseEntity.notFound().build();
+		} else {
+			List<Moto> motos = usuarioService.getMotos(id);
+			return ResponseEntity.ok(motos);
 		}
 	}
 }

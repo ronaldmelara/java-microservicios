@@ -3,6 +3,15 @@ package com.usuario.service.modelos;
 public class Auto {
 	private String marca;
 	private String modelo;
+	private int usuarioId;
+
+	public int getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(int usuarioId) {
+		this.usuarioId = usuarioId;
+	}
 
 	public String getMarca() {
 		return marca;

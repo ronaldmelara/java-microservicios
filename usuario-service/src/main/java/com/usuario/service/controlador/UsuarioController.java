@@ -67,4 +67,12 @@ public class UsuarioController {
 			return ResponseEntity.ok(motos);
 		}
 	}
+	
+	@PostMapping("/auto/{usuarioId}")
+	public ResponseEntity<Auto> guardarAuto(@PathVariable("usuarioId") int usuarioId, @RequestBody Auto auto )
+	{
+		Auto nuevoAuto = usuarioService.saveAuto(usuarioId, auto);
+		return ResponseEntity.ok(nuevoAuto);
+	}
+	
 }
